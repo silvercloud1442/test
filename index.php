@@ -4,7 +4,7 @@
     $params = explode('/', $q);
     require 'vendor/autoload.php';
     header('Content-Type: application/json');
-    $client = new MongoDB\Client('mongodb+srv://user:Tunehemah1@cluster0.ghsbmhw.mongodb.net/?retryWrites=true&w=majority');
+    $client = new MongoDB\Client('mongodb+srv://user:****@cluster0.ghsbmhw.mongodb.net/?retryWrites=true&w=majority');
 
     $collection = $client->trade->items;
 
