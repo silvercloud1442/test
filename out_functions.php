@@ -1,17 +1,18 @@
 <?php
 
-function invalid_args(){
+function except_invalid_args(){
     $res = [
         "status" => false,
         "message" => "Incorrect args"
     ];
-    echo json_encode($res);
+    die(json_encode($res));
 }
 
-function empty_result(){
+
+function except_empty_result(){
     $res = [
         "status" => false,
         "message" => "Empty result"
     ];
-    echo json_encode($res);
+    die(json_encode($res));
 }
