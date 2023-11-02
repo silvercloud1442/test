@@ -43,7 +43,9 @@ function params_from_query($query){
         $splited = explode("=", $part);
         $key = $splited[0];
         $value = $splited[1];
-        if (mb_strpos($value, ':') === false){
+        echo $value;
+        // if (mb_strpos($value, ':') === false){}
+        if (mb_strpos($value, '(') == false){
             $converted = floatval($value);
             if ($converted == $value){
                 $params[$key] = $converted;
@@ -51,6 +53,21 @@ function params_from_query($query){
                 $params[$key] = $value;
             }
         }
+        // пример свойств properties=(property, gte123, lte432;porperty,gte111)
+        else {
+            $sub = substr($value, 1, -1);
+            echo($sub);
+            $value = explode(';', $sub);
+            var_dump($value);
+            foreach($value as $property_with_values){
+                
+                $property_with_values = explode(',', $property_with_values);
+                $property = $property_with_values[0];
+                $values = array_slice($property_with_values, 1);
+            }
+            
+        }
+        
     }
     return $params;
 }
