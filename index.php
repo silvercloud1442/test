@@ -4,51 +4,54 @@
     require 'out_functions.php';
     header('Content-Type: application/json');
 
-    // получить коллекции из бд
-    $client = new MongoDB\Client('mongodb+srv://user:Tunehemah1@cluster0.ghsbmhw.mongodb.net/?retryWrites=true&w=majority');
-    $collection = $client->trade->items;
+    /*НАДО
+    
+    пользователи + хрень
+    владельцы у предметов
+    цены + смены
 
-   
+    ЕСЛИ МОЖНО
+
+    токены доступа
+
+    */
+    die(bin2hex(random_bytes(32)));
+
+
+
 
     // получить параметры query из url
+    $q = $_GET['q'];
     $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-    // на меня глядит игриво
-    $filter = pivo2($url);
-/*
-    $query = query_from_url($url);
-    if ($query === false){
-        except_invalid_args();
+    // получить бд
+    $client = new MongoDB\Client('mongodb+srv://user:Tunehemah1@cluster0.ghsbmhw.mongodb.net/?retryWrites=true&w=majority');
+
+    $db = $client->trade;
+    
+    switch ($q){
+        case 'items':
+            page_items($db, $url);
+            break;
+        case 'properties':
+            page_properties($db);
+            break;
+
     }
 
-    создать словарь параметров
-    $params = params_from_query($query);
+    function page_items($db, $url){
+        $collection = $db->items;
 
-    получиьт данные из коллекции по параметрам
-    
-*/
+        $filter = filter_from_url($url);
+        get_items($collection, $filter);
+    }
 
-$filter = [
-    '$and' => [
-        [
-            'properties' => [
-                '$elemMatch' => [
-                    'id' => '6522f56cf66388e941146a3e',
-                    'values' => ['$gte' => 1]
-                ]
-            ]
-        ],
-        [
-            'properties' => [
-                '$elemMatch' => [
-                    'id' => '6522f56cf66388e941146a15',
-                    'values' => ['$gte' => 1]
-                ]
-            ]
-        ]
-    ]
-];
-    var_dump($filter);
+    function page_properties($db){
+        $collection = $db->properties;
+        $result = $collection->find([], ['projection' => ['property' => 1]]);
 
-    get_items($collection, $filter);
+        foreach ($result as $document){
+            echo json_encode($document);
+        }
+    }
 ?>
