@@ -31,3 +31,28 @@ function get_user($collection, $url){
         }
     }
 }
+
+function set_user($collection, $url){
+    check_url($url);
+    $urlParts = parse_url($url);
+    parse_str($urlParts['query'], $queryParams);
+
+    if (isset($queryParams['login']) && isset($queryParams['password'])){
+        $login = $queryParams['login'];
+        $password = $queryParams['password'];
+
+        $filter = ['login' => $logi];
+        $res = $collection->find($filter)->toArray();
+        $count = count($res);
+        if($count !== 0){
+            return false;
+        }
+        else {
+            $insertOneResult = $collection->insertOne([
+                'login' => $login,
+                'password' => $password
+            ]);
+            return true;          
+        }
+    }
+}

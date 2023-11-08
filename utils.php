@@ -3,7 +3,7 @@
 function except_invalid_args($die=true){
     $res = [
         "status" => false,
-        "message" => "Incorrect args"
+        "message" => "Incorrect args. Check url"
     ];
     if($die){
         die(json_encode($res));
@@ -15,6 +15,17 @@ function except_empty_result($die=true){
     $res = [
         "status" => false,
         "message" => "Empty result"
+    ];
+    if($die){
+        die(json_encode($res));
+    }
+    return false;
+}
+
+function except_main_error($die=true){
+    $res = [
+        "status" => false,
+        "message" => "Undefiend error. Check url"
     ];
     if($die){
         die(json_encode($res));

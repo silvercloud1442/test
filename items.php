@@ -71,4 +71,3 @@ function filter_from_url($url){
     }
     return $filter;
 }
-
