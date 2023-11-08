@@ -41,7 +41,7 @@ function set_user($collection, $url){
         $login = $queryParams['login'];
         $password = $queryParams['password'];
 
-        $filter = ['login' => $logi];
+        $filter = ['login' => $login];
         $res = $collection->find($filter)->toArray();
         $count = count($res);
         if($count !== 0){
