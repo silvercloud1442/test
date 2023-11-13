@@ -1,4 +1,5 @@
 <?php
+
 function main_items($db, $url){
     $collection = $db->items;
 
@@ -18,6 +19,7 @@ function get_items($collection, $filter){
 
 // создать словарь параметров
 function filter_from_url($url){
+
     // Разбиваем URL на части, чтобы получить параметры
     check_url($url);
     $urlParts = parse_url($url);
@@ -37,6 +39,9 @@ function filter_from_url($url){
             }
         }
     }
+    if(!isset($queryParams['price'])) {
+        $filter['price'] = ['$exists' => true];
+    }
 
     if (isset($queryParams['properties'])) {
         $properties = substr($queryParams['properties'], 1 ,-1);
@@ -52,9 +57,10 @@ function filter_from_url($url){
                 list($key, $value) = explode(':', $condition);
                 $conditions[$key] = $value;
             }
-        
+            
+            $objectId = new MongoDB\BSON\ObjectID($id);
             $elemMatch = [
-                'id' => $id,
+                'id' => $objectId,
             ];
         
             if (isset($conditions['gte'])) {

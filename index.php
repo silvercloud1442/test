@@ -4,8 +4,10 @@
     require 'properties.php';
     require 'users.php';
     require 'utils.php';
+    require 'buy.php';
+    require 'sell.php';
     header('Content-Type: application/json');
-
+    
     /*НАДО
     
     пользователи + хрень
@@ -29,6 +31,12 @@
     $db = $client->trade;
     try{
         switch ($q){
+            case 'sell':
+                main_sell($db, $url);
+                break;
+            case 'buy':
+                main_buy($db, $url);
+                break;
             case 'items':
                 main_items($db, $url);
                 break;
@@ -42,5 +50,6 @@
         }
     }
     catch (Exception $e) {
+        echo $e;
         except_main_error();
     }
