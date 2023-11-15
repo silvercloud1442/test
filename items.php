@@ -10,11 +10,12 @@ function main_items($db, $url){
 // получиьт данные из коллекции по фильтру
 function get_items($collection, $filter){
     $result = $collection->find($filter);
+    $c = 0;
     foreach ($result as $document){
         echo json_encode($document);
+        $c++;
     }
-    $count = count(iterator_to_array($result));
-    if($count === 0){except_empty_result();}
+    if($c === 0){except_empty_result();}
 }
 
 // создать словарь параметров

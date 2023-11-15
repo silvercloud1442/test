@@ -53,6 +53,5 @@
         }
     }
     catch (Exception $e) {
-        echo $e;
-        except_main_error();
+        except_main_error($e);
     }

@@ -22,10 +22,10 @@ function except_empty_result($die=true){
     return false;
 }
 
-function except_main_error($die=true){
+function except_main_error($e, $die=true){
     $res = [
         "status" => false,
-        "message" => "Undefiend error. Check url"
+        "message" => $e
     ];
     if($die){
         die(json_encode($res));
