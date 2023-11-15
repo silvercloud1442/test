@@ -3,7 +3,7 @@ function main_login($db, $url){
     $collection = $db->users;
     $user_id = get_user($collection, $url);
     if($user_id){
-        var_dump($user_id);
+        echo($user_id);
     }
     else{
         except_wrong_login();
@@ -27,7 +27,9 @@ function get_user($collection, $url){
             return false;
         }
         else {
-           return $res[0];
+           foreach($res as $doc){
+            return (string)$doc['_id'];;
+           }
         }
     }
 }
