@@ -14,7 +14,7 @@ function main_login($db, $url){
 function main_register($db, $url){
     $collection = $db->users;
     $user_id = set_user($collection, $url);
-    if ($user_id){
+    if ($user_id != false){
         echo($user_id);
     }
     else{
@@ -56,18 +56,19 @@ function set_user($collection, $url){
 
         $filter = ['login' => $login];
         $res = $collection->find($filter)->toArray();
-        $count = count($res);
-        if($count !== 0){
+        if(!empty($res)){
             return false;
         }
         else {
             $insertOneResult = $collection->insertOne([
                 'login' => $login,
-                'password' => $password
+                'password' => $password,
+                'money' => 100
             ]);
             foreach($insertOneResult as $doc){
                 return (string)$doc['_id'];;
-               }        
+               }
+            return true;        
         }
     }
 }
