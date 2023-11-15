@@ -31,6 +31,9 @@
     $db = $client->trade;
     try{
         switch ($q){
+            case 'error':
+                http_response_code(400);
+                break;
             case 'test':
                 echo 200;
                 break;
