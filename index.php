@@ -52,6 +52,10 @@
             case 'login':
                 main_login($db, $url);
                 break;
+            case 'register':
+                main_register($db, $url);
+                break;
+
 
         }
     }

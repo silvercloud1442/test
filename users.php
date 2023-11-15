@@ -11,6 +11,17 @@ function main_login($db, $url){
     
 }
 
+function main_register($db, $url){
+    $collection = $db->users;
+    $user_id = set_user($collection, $url);
+    if ($user_id){
+        echo($user_id);
+    }
+    else{
+        echo("Логин занят");
+    }
+}
+
 function get_user($collection, $url){
     check_url($url);
     $urlParts = parse_url($url);
@@ -54,7 +65,9 @@ function set_user($collection, $url){
                 'login' => $login,
                 'password' => $password
             ]);
-            return true;          
+            foreach($insertOneResult as $doc){
+                return (string)$doc['_id'];;
+               }        
         }
     }
 }
