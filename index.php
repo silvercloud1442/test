@@ -31,6 +31,9 @@
     $db = $client->trade;
     try{
         switch ($q){
+            case 'test':
+                echo 200;
+                break;
             case 'sell':
                 main_sell($db, $url);
                 break;
