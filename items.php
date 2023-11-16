@@ -11,10 +11,13 @@ function main_items($db, $url){
 function get_items($collection, $filter){
     $result = $collection->find($filter);
     $c = 0;
+    echo '[';
     foreach ($result as $document){
         echo json_encode($document);
+        echo ',';
         $c++;
     }
+    echo ']';
     if($c === 0){except_empty_result();}
 }
 

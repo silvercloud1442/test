@@ -12,7 +12,10 @@ function get_user_items($db, $url){
     $user_id = $queryParams['user'];
 
     $res = $db->items->find(['user' => new MongoDB\BSON\ObjectID($user_id)]);
+    echo '[';
     foreach($res as $doc){
         echo json_encode($doc);
+        echo ',';
     }
+    echo ']';
 }
