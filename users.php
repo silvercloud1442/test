@@ -6,7 +6,7 @@ function main_login($db, $url){
         echo($user_id);
     }
     else{
-        except_wrong_login();
+        echo 0;
     }
     
 }

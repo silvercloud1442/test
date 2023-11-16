@@ -6,6 +6,7 @@
     require 'utils.php';
     require 'buy.php';
     require 'sell.php';
+    require 'inventory.php';
     header('Content-Type: application/json');
     
     /*НАДО
@@ -31,6 +32,9 @@
     $db = $client->trade;
     try{
         switch ($q){
+            case 'inventory':
+                get_user_items($db, $url);
+                break;
             case 'error':
                 http_response_code(400);
                 break;
