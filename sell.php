@@ -14,7 +14,13 @@ function main_sell($db, $url){
             ['$set' => ['price' => (int)$queryParams['price']]]
         );
     }
-    else{
+    else if ((int)($queryParams['price']) == 0){
+        $items->updateOne(
+            ['_id' => new MongoDB\BSON\ObjectID($queryParams['item'])],
+            ['$unset' => ['price' => true]]
+        );
+    }
+    else {
         echo 'ne normalno';
         die();
     }
