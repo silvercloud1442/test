@@ -43,7 +43,6 @@ function filter_from_url($url){
             }
         }
     }
-    var_dump($filter['sockets']);
     if(!isset($queryParams['price'])) {
         $filter['price'] = ['$exists' => true];
     }
