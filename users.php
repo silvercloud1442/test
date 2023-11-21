@@ -22,6 +22,20 @@ function main_register($db, $url){
     }
 }
 
+function get_money($db, $url){
+    check_url($url);
+    $urlParts = parse_url($url);
+    parse_str($urlParts['query'], $queryParams);
+
+    if (isset($queryParams['user'])){
+        $collection = $db->users->find(['_id' => new MongoDB\BSON\ObjectID($queryParams['user'])], ['projection' => ['money' => 1]])->toArray()[0];
+        echo json_encode($collection);
+    }
+    else{
+        except_invalid_args();
+    }
+}
+
 function get_user($collection, $url){
     check_url($url);
     $urlParts = parse_url($url);

@@ -32,6 +32,9 @@
     $db = $client->trade;
     try{
         switch ($q){
+            case 'money':
+                get_money($db, $url);
+                break;
             case 'inventory':
                 get_user_items($db, $url);
                 break;
