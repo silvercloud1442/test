@@ -48,36 +48,37 @@ function filter_from_url($url){
     }
 
     if (isset($queryParams['properties'])) {
-        $properties = substr($queryParams['properties'], 1 ,-1);
-        $parts = explode(';', $properties);
-    
-        foreach ($parts as $part) {
-            // Разбиваем каждую часть на ID и условия
-            $subparts = explode(',', $part);
-            $id = $subparts[0];
+        if($queryParams['properties'] != "()"){
+            $properties = substr($queryParams['properties'], 1 ,-1);
+            $parts = explode(';', $properties);
         
-            $conditions = [];
-            foreach (array_slice($subparts, 1) as $condition) {
-                list($key, $value) = explode(':', $condition);
-                $conditions[$key] = $value;
-            }
+            foreach ($parts as $part) {
+                // Разбиваем каждую часть на ID и условия
+                $subparts = explode(',', $part);
+                $id = $subparts[0];
             
-            $objectId = new MongoDB\BSON\ObjectID($id);
-            $elemMatch = [
-                'id' => $objectId,
-            ];
-        
-            if (isset($conditions['gte'])) {
-                $elemMatch['values']['$gte'] = (int)$conditions['gte'];
+                $conditions = [];
+                foreach (array_slice($subparts, 1) as $condition) {
+                    list($key, $value) = explode(':', $condition);
+                    $conditions[$key] = $value;
+                }
+                
+                $objectId = new MongoDB\BSON\ObjectID($id);
+                $elemMatch = [
+                    'id' => $objectId,
+                ];
+            
+                if (isset($conditions['gte'])) {
+                    $elemMatch['values']['$gte'] = (int)$conditions['gte'];
+                }
+            
+                if (isset($conditions['lte'])) {
+                    $elemMatch['values']['$lte'] = (int)$conditions['lte'];
+                }
+            
+                $filter['$and'][] = ['properties' => ['$elemMatch' => $elemMatch]];
             }
-        
-            if (isset($conditions['lte'])) {
-                $elemMatch['values']['$lte'] = (int)$conditions['lte'];
-            }
-        
-            $filter['$and'][] = ['properties' => ['$elemMatch' => $elemMatch]];
         }
-        
     }
     return $filter;
 }
