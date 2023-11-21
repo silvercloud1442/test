@@ -33,7 +33,7 @@ function filter_from_url($url){
     $filter = [];
 
     foreach(array_keys($queryParams) as $param){
-        if($param != 'properties'){
+        if($param != 'properties' && $param != 'price'){
             $value = $queryParams[$param];
             $converted = floatval($value);
             if ($converted == $value){
@@ -43,8 +43,36 @@ function filter_from_url($url){
             }
         }
     }
+    var_dump($filter['sockets']);
     if(!isset($queryParams['price'])) {
         $filter['price'] = ['$exists' => true];
+    }
+    else{
+        $f = false;
+        $price = substr($queryParams['price'], 1 ,-1);
+        $subparts = explode(',', $price);
+        $conditions = [];
+        foreach ($subparts as $condition) {
+            list($key, $value) = explode(':', $condition);
+            $conditions[$key] = $value;
+        }
+        if (isset($conditions['gte'])) {
+            $elemMatch['$gte'] = (int)$conditions['gte'];
+            $f = true;
+        }
+    
+        if (isset($conditions['lte'])) {
+            $elemMatch['$lte'] = (int)$conditions['lte'];
+            $f = true;
+        }
+        if(!$f)
+        {
+            $filter['price'] = ['$exists' => true];
+        }
+        else{
+            $filter['price'] = $elemMatch;
+        }
+        var_dump($filter['price']);
     }
 
     if (isset($queryParams['properties'])) {
