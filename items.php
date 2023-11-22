@@ -43,7 +43,7 @@ function filter_from_url($url){
             }
         }
     }
-    if(!isset($queryParams['user'])) {
+    if(isset($queryParams['user'])) {
         $filter['user'] = ['$not' => $queryParams['user']];
     }
     if(!isset($queryParams['price'])) {
