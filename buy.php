@@ -33,13 +33,13 @@ function main_buy($db, $url){
             );
         }
         else{
-            echo 'net denyak';
+            echo 'false';
             die();
         }
     }
     else {
-        echo 'ne normalno';
+        echo 'false';
         die();
     }
-    echo 'normalno';
+    echo 'true';
 }
